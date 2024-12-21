@@ -1,15 +1,29 @@
 package org.example;
+import java.util.ArrayList;
+import java.util.List;
 
-public class SmartCityManager {
-    SmartCityManager cityManager = new SmartCityManager();
 
-    District district1 = new District("Downtown");
-    Building building1 = new Building("Park");
-    Sensor sensor1 = new Sensor("Light Sensor", 50);
+class SmartCityManager {
+    private List<CityComponent> districts = new ArrayList<>();
+    private CityMediator mediator;
 
-    building1.add(sensor1);
-    district1.add(building1);
-    cityManager.add(district1);
+    public SmartCityManager() {
+        this.mediator = new CityMediator();
+    }
 
-    cityManager.checkLighting("Downtown");
+    public void add(CityComponent district) {
+        districts.add(district);
+    }
+
+    public void checkLighting(String districtName) {
+        for (CityComponent district : districts) {
+            if (district instanceof District && ((District) district).getName().equals(districtName)) {
+                mediator.checkLighting((District) district);
+            }
+        }
+    }
+
+    public List<CityComponent> getDistricts() {
+        return districts;
+    }
 }

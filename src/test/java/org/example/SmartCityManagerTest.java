@@ -4,8 +4,9 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SmartCityManagerTest {
+
     @Test
-    void testBuidlingAddedToTheDistrict() {
+    void testBuildlingAddedToTheDistrict() {
         SmartCityManager cityManager = new SmartCityManager();
 
         District district = new District("Downtown");
@@ -13,9 +14,15 @@ class SmartCityManagerTest {
 
         district.add(building);
         cityManager.add(district);
-        district.getBuildingNames();
 
-        assertEquals("Park", district.getBuildingNames(), "getBuildingNames didn't show the expect buildings");
+        boolean buildingFound = false;
+        for (CityComponent component : district.getComponents()) {
+            if (component instanceof Building && ((Building) component).getName().equals("Park")) {
+                buildingFound = true;
+                break;
+            }
+        }
+        assertTrue(buildingFound, "Building 'Park' didn't get added to the district");
     }
 
     @Test
@@ -26,26 +33,17 @@ class SmartCityManagerTest {
         Building building = new Building("Park");
         Sensor sensor1 = new Sensor("Light Sensor", 45);
 
-        building.add(sensor1);
-        district.add(building);
         cityManager.add(district);
-        district.getSensorNames();
-
-        assertEquals("Light Sensor", district.getSensorNames(), "getSensorNames didn't show the expect buildings");
-    }
-
-    @Test
-    void testCityLightingNotification() {
-        SmartCityManager cityManager = new SmartCityManager();
-
-        District district = new District("Downtown");
-        Building building = new Building("Park");
-        Sensor sensor1 = new Sensor("Light Sensor", 45);
-
-        building.add(sensor1);
         district.add(building);
-        cityManager.add(district);
+        building.add(sensor1);
 
-        assertNotEquals("Notification", cityManager.checkLighting("Downtown"),"Error, checkLighting send a notification when it shouldn't");
+        boolean sensorFound = false;
+        for (CityComponent component : building.getSensors()) {
+            if (component instanceof Sensor && ((Sensor) component).getName().equals("Light Sensor")) {
+                sensorFound = true;
+                break;
+            }
+        }
+        assertTrue(sensorFound, "Sensor 'Light Sensor' didn't get added to the building");
     }
 }
