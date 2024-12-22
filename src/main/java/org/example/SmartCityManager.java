@@ -23,6 +23,22 @@ class SmartCityManager {
         }
     }
 
+    public void checkTrafficJam(String districtName) {
+        for (CityComponent district : districts) {
+            if (district instanceof District && ((District) district).getName().equals(districtName)) {
+                mediator.checkTrafficJam((District) district);
+            }
+        }
+    }
+
+    public void checkTemperature(String districtName) {
+        for (CityComponent district : districts) {
+            if (district instanceof District && ((District) district).getName().equals(districtName)) {
+                mediator.checkTemperature((District) district);
+            }
+        }
+    }
+
     public List<CityComponent> getDistricts() {
         return districts;
     }

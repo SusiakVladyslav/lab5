@@ -14,5 +14,34 @@ class CityMediator {
             }
         }
     }
+
+    public void checkTrafficJam(District district) {
+        for (CityComponent component : district.getComponents()) {
+            if (component instanceof Building building) {
+                for (CityComponent sensor : building.getSensors()) {
+                    if ((sensor instanceof Sensor)
+                            && Objects.equals(((Sensor) sensor).getName(), "Traffic Sensor")
+                            && (sensor.getData() > 5)) {
+                        System.out.println(((Sensor) sensor).getName() + " in " + building.getName() + " detected heavy traffic. Traffic controllers are sent.");
+                    }
+                }
+            }
+        }
+    }
+
+    public void checkTemperature(District district) {
+        for (CityComponent component : district.getComponents()) {
+            if (component instanceof Building building) {
+                for (CityComponent sensor : building.getSensors()) {
+                    if ((sensor instanceof Sensor)
+                            && Objects.equals(((Sensor) sensor).getName(), "Temperature Sensor")
+                            && (sensor.getData() < 17)) {
+                        System.out.println(((Sensor) sensor).getName() + " in " + building.getName() + " detected low temperature. Heaters are turned on.");
+                    }
+                }
+            }
+        }
+    }
+
 }
 
